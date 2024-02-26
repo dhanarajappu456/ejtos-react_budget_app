@@ -1,33 +1,28 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
 
-const AllocationForm = (props) => {
-  const { dispatch, remaining, currency } = useContext(AppContext);
+const ItemSelected = (props) => {
+  const { dispatch } = useContext(AppContext);
 
   const [name, setName] = useState("");
-  const [cost, setCost] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [action, setAction] = useState("");
 
   const submitEvent = () => {
-    if (cost > remaining) {
-      alert("The value cannot exceed remaining funds  £" + remaining);
-      setCost("");
-      return;
-    }
-
-    const expense = {
+    const item = {
       name: name,
-      cost: parseInt(cost),
+      quantity: parseInt(quantity),
     };
+
     if (action === "Reduce") {
       dispatch({
-        type: "RED_EXPENSE",
-        payload: expense,
+        type: "RED_QUANTITY",
+        payload: item,
       });
     } else {
       dispatch({
-        type: "ADD_EXPENSE",
-        payload: expense,
+        type: "ADD_QUANTITY",
+        payload: item,
       });
     }
   };
@@ -38,7 +33,7 @@ const AllocationForm = (props) => {
         <div className="input-group mb-3" style={{ marginLeft: "2rem" }}>
           <div className="input-group-prepend">
             <label className="input-group-text" htmlFor="inputGroupSelect01">
-              Department
+              Items
             </label>
           </div>
           <select
@@ -47,30 +42,27 @@ const AllocationForm = (props) => {
             onChange={(event) => setName(event.target.value)}
           >
             <option defaultValue>Choose...</option>
-            <option value="Marketing" name="marketing">
+            <option value="Shirt" name="Shirt">
               {" "}
-              Marketing
+              Shirt
             </option>
-            <option value="Sales" name="sales">
-              Sales
+            <option value="Dress" name="Dress">
+              Dress
             </option>
-            <option value="Finance" name="finance">
-              Finance
+            <option value="Jeans" name="Jeans">
+              Jeans
             </option>
-            <option value="Human Resource" name="hr">
-              Human Resource
+            <option value="Dinner set" name="Dinner set">
+              Dinner set
             </option>
-            <option value="IT" name="it">
-              IT
-            </option>
-            <option value="Admin" name="admin">
-              Admin
+            <option value="Bags" name="Bags">
+              Bags
             </option>
           </select>
 
           <div className="input-group-prepend" style={{ marginLeft: "2rem" }}>
             <label className="input-group-text" htmlFor="inputGroupSelect02">
-              Allocation
+              Quantity
             </label>
           </div>
           <select
@@ -85,18 +77,25 @@ const AllocationForm = (props) => {
               Reduce
             </option>
           </select>
-          <div className="ms-3 d-flex  align-items-center">
-            {currency}
-            <input
-              className="mx-2"
-              required="required"
-              type="number"
-              id="cost"
-              value={cost}
-              onChange={(event) => setCost(event.target.value)}
-            ></input>
-          </div>
-          <button className="btn btn-primary" onClick={submitEvent}>
+          <span
+            className="eco"
+            style={{ marginLeft: "2rem", marginRight: "8px" }}
+          ></span>
+
+          <input
+            required="required"
+            type="number"
+            id="cost"
+            value={quantity}
+            style={{ size: 10 }}
+            onChange={(event) => setQuantity(event.target.value)}
+          ></input>
+
+          <button
+            className="btn btn-primary"
+            onClick={submitEvent}
+            style={{ marginLeft: "2rem" }}
+          >
             Save
           </button>
         </div>
@@ -105,4 +104,4 @@ const AllocationForm = (props) => {
   );
 };
 
-export default AllocationForm;
+export default ItemSelected;
